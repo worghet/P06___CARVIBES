@@ -16,3 +16,10 @@ func _process(delta: float) -> void:
 	
 	$"back-right".engine_force = acceleration * max_torque * (1-rpm / max_rpm)
 	
+	#if Input.is_action_pressed("brake"): 
+		#linear_velocity = linear_velocity.linear_interpolate(Vector3.ZERO, 5 * delta)
+
+
+		
+	
+	get_parent().get_child(0).get_child(0).get_child(0).text = "SPEED   //   " + str(linear_velocity.length()).pad_decimals(1)

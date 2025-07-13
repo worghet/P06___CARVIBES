@@ -1,0 +1,56 @@
+[gd_scene load_steps=5 format=3 uid="uid://gstchh1dfws1"]
+
+[ext_resource type="Script" uid="uid://nurbe080l5x3" path="res://scripts/car.gd" id="1_50v30"]
+[ext_resource type="PackedScene" uid="uid://dgo1dp6sf687n" path="res://demo_stuffs/FiatUno1998.glb" id="2_jtldb"]
+[ext_resource type="Script" uid="uid://h3b4ccehxl58" path="res://scripts/camera_pivot.gd" id="3_3mrxu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_iywne"]
+size = Vector3(1.75391, 1.60168, 4.24841)
+
+[node name="car" type="VehicleBody3D"]
+script = ExtResource("1_50v30")
+
+[node name="mesh" parent="." instance=ExtResource("2_jtldb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.487147, 0)
+
+[node name="collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00292969, 0.300842, 0.252136)
+shape = SubResource("BoxShape3D_iywne")
+
+[node name="front-left" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.156466, 1.53882)
+use_as_steering = true
+wheel_radius = 0.3
+suspension_stiffness = 50.0
+damping_compression = 1.9
+damping_relaxation = 2.0
+
+[node name="front-right" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.156466, 1.53882)
+use_as_steering = true
+wheel_radius = 0.3
+suspension_stiffness = 50.0
+damping_compression = 1.9
+damping_relaxation = 2.0
+
+[node name="back-left" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.156506, -1.2)
+use_as_traction = true
+wheel_radius = 0.3
+suspension_stiffness = 50.0
+damping_compression = 1.9
+damping_relaxation = 2.0
+
+[node name="back-right" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.156506, -1.2)
+use_as_traction = true
+wheel_radius = 0.3
+suspension_stiffness = 50.0
+damping_compression = 1.9
+damping_relaxation = 2.0
+
+[node name="camera_pivot" type="Node3D" parent="."]
+script = ExtResource("3_3mrxu")
+
+[node name="camera" type="Camera3D" parent="camera_pivot"]
+transform = Transform3D(-1, 0, -8.74228e-08, -4.37114e-08, 0.866025, 0.5, 7.57103e-08, 0.5, -0.866025, 0, 2.49489, -4.02142)
