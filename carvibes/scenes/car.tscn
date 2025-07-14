@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://gstchh1dfws1"]
+[gd_scene load_steps=8 format=3 uid="uid://gstchh1dfws1"]
 
 [ext_resource type="Script" uid="uid://nurbe080l5x3" path="res://scripts/car.gd" id="1_50v30"]
 [ext_resource type="PackedScene" uid="uid://dgo1dp6sf687n" path="res://demo_stuffs/FiatUno1998.glb" id="2_jtldb"]
@@ -6,6 +6,50 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_iywne"]
 size = Vector3(1.75391, 1.60168, 4.24841)
+
+[sub_resource type="Shader" id="Shader_50v30"]
+code = "shader_type spatial;
+render_mode unshaded, fog_disabled;
+
+global uniform vec2 resolution;
+global uniform float colour_depth;
+
+uniform sampler2D screen_texture: hint_screen_texture, filter_nearest;
+uniform float dither_amount: hint_range(0.0, 1.0, 0.01) = 0.5;
+
+const mat4 bayer_matrix = (1.0 / 16.0) * mat4(
+	vec4(0.0, 8.0, 2.0, 10.0),
+	vec4(12.0, 4.0, 14.0, 6.0),
+	vec4(3.0, 11.0, 1.0, 9.0),
+	vec4(15.0, 7.0, 13.0, 9.0)
+) - 0.5;
+
+void vertex() {
+	POSITION = vec4(VERTEX.xy, 1.0, 1.0);
+}
+
+void fragment() {
+	vec2 uv = floor(SCREEN_UV * resolution) / resolution;
+	ivec2 int_uv = ivec2(uv * resolution);
+	vec3 color = texture(screen_texture, uv).rgb;
+	vec3 dithered_color = color + bayer_matrix[int_uv.x % 4][int_uv.y % 4] / colour_depth * dither_amount;
+	vec3 quantized_color = round(dithered_color * colour_depth) / colour_depth;
+	ALBEDO = quantized_color;
+}
+
+//void light() {
+//	// Called for every pixel for every light affecting the material.
+//	// Uncomment to replace the default light processing function with this one.
+//}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jtldb"]
+render_priority = 0
+shader = SubResource("Shader_50v30")
+shader_parameter/dither_amount = 0.5
+
+[sub_resource type="QuadMesh" id="QuadMesh_3mrxu"]
+flip_faces = true
+size = Vector2(2, 2)
 
 [node name="car" type="VehicleBody3D"]
 script = ExtResource("1_50v30")
@@ -54,3 +98,9 @@ script = ExtResource("3_3mrxu")
 
 [node name="camera" type="Camera3D" parent="camera_pivot"]
 transform = Transform3D(-1, 0, -8.74228e-08, -4.37114e-08, 0.866025, 0.5, 7.57103e-08, 0.5, -0.866025, 0, 2.49489, -4.02142)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="camera_pivot/camera"]
+transform = Transform3D(1.36602, 3.55271e-15, -1.56319e-13, 6.03961e-14, 0.693721, -3.57628e-07, 1.13687e-13, 2.98023e-08, 2.9208, 7.72548e-08, 0.0352123, -0.88369)
+material_override = SubResource("ShaderMaterial_jtldb")
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_3mrxu")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bgjqlmctbc56w"]
+[gd_scene load_steps=13 format=3 uid="uid://bgjqlmctbc56w"]
 
 [ext_resource type="FontFile" uid="uid://co8u3w8k6dadt" path="res://demo_stuffs/Daydream.ttf" id="1_lnu2h"]
 [ext_resource type="Texture2D" uid="uid://cymicbcjdi2fi" path="res://demo_stuffs/gravel_05.png" id="1_uwrxv"]
@@ -28,6 +28,44 @@ size = Vector3(250, 0.5, 250)
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_yqjtg"]
 data = PackedVector3Array(-125, 0.25, 125, 125, 0.25, 125, -125, -0.25, 125, 125, 0.25, 125, 125, -0.25, 125, -125, -0.25, 125, 125, 0.25, -125, -125, 0.25, -125, 125, -0.25, -125, -125, 0.25, -125, -125, -0.25, -125, 125, -0.25, -125, 125, 0.25, 125, 125, 0.25, -125, 125, -0.25, 125, 125, 0.25, -125, 125, -0.25, -125, 125, -0.25, 125, -125, 0.25, -125, -125, 0.25, 125, -125, -0.25, -125, -125, 0.25, 125, -125, -0.25, 125, -125, -0.25, -125, 125, 0.25, 125, -125, 0.25, 125, 125, 0.25, -125, -125, 0.25, 125, -125, 0.25, -125, 125, 0.25, -125, -125, -0.25, 125, 125, -0.25, 125, -125, -0.25, -125, 125, -0.25, 125, 125, -0.25, -125, -125, -0.25, -125)
 
+[sub_resource type="Shader" id="Shader_lnu2h"]
+code = "shader_type spatial;
+render_mode world_vertex_coords, specular_disabled, vertex_lighting;
+
+global uniform vec2 resolution;
+uniform sampler2D color_texture: source_color, filter_nearest;
+uniform float vertex_wobble: hint_range(0.0, 1.0, 0.01) = 1.0;
+uniform float affine_mapping: hint_range(0.0, 1.0, 0.01) = 1.0;
+varying vec2 original_uv;
+
+void vertex() {
+	vec4 position = PROJECTION_MATRIX * VIEW_MATRIX * vec4(VERTEX, 1.0);
+	vec2 snapping = resolution * vertex_wobble;
+	vec2 screen_position = round(position.xy * snapping) / snapping;
+	POSITION = vec4(screen_position, position.zw);
+
+	original_uv = UV;
+	UV *= (VIEW_MATRIX * vec4(VERTEX, 1.0)).z;
+}
+
+void fragment() {
+	vec2 uv = mix(original_uv, UV / VERTEX.z, affine_mapping);
+	ALBEDO = texture(color_texture, uv).rgb;
+}
+
+//void light() {
+//	// Called for every pixel for every light affecting the material.
+//	// Uncomment to replace the default light processing function with this one.
+//}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iywne"]
+render_priority = 0
+shader = SubResource("Shader_lnu2h")
+shader_parameter/vertex_wobble = 1.0
+shader_parameter/affine_mapping = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_lbhrr"]
+
 [node name="game" type="Node3D"]
 
 [node name="ui" type="Control" parent="."]
@@ -38,6 +76,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
+mouse_filter = 2
 
 [node name="margin" type="MarginContainer" parent="ui"]
 layout_mode = 1
@@ -75,4 +114,9 @@ mesh = SubResource("BoxMesh_lnu2h")
 shape = SubResource("ConcavePolygonShape3D_yqjtg")
 
 [node name="car" parent="." instance=ExtResource("2_yqjtg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.96509, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.66654, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4813, 9.59278)
+material_override = SubResource("ShaderMaterial_iywne")
+mesh = SubResource("BoxMesh_lbhrr")
