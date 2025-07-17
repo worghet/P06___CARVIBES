@@ -64,16 +64,20 @@ shape = SubResource("BoxShape3D_iywne")
 
 [node name="front-left" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.156466, 1.53882)
-use_as_steering = true
+use_as_traction = true
+wheel_roll_influence = 0.5
 wheel_radius = 0.3
+wheel_friction_slip = 1.0
 suspension_stiffness = 50.0
 damping_compression = 1.9
 damping_relaxation = 2.0
 
 [node name="front-right" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.156466, 1.53882)
-use_as_steering = true
+use_as_traction = true
+wheel_roll_influence = 0.5
 wheel_radius = 0.3
+wheel_friction_slip = 1.0
 suspension_stiffness = 50.0
 damping_compression = 1.9
 damping_relaxation = 2.0
@@ -81,7 +85,10 @@ damping_relaxation = 2.0
 [node name="back-left" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.156506, -1.2)
 use_as_traction = true
+use_as_steering = true
+wheel_roll_influence = 0.5
 wheel_radius = 0.3
+wheel_friction_slip = 1.5
 suspension_stiffness = 50.0
 damping_compression = 1.9
 damping_relaxation = 2.0
@@ -89,7 +96,10 @@ damping_relaxation = 2.0
 [node name="back-right" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.156506, -1.2)
 use_as_traction = true
+use_as_steering = true
+wheel_roll_influence = 0.5
 wheel_radius = 0.3
+wheel_friction_slip = 1.5
 suspension_stiffness = 50.0
 damping_compression = 1.9
 damping_relaxation = 2.0
@@ -105,3 +115,5 @@ transform = Transform3D(1.36602, 3.55271e-15, -1.56319e-13, 6.03961e-14, 0.69372
 material_override = SubResource("ShaderMaterial_jtldb")
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_3mrxu")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
