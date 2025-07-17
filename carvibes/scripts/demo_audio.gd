@@ -17,13 +17,14 @@ extends AudioStreamPlayer
 
 const PREV = 0
 const NEXT = 1
+const START = 2
 
 
 var track_index = 0
 
 func _ready() -> void:
 	
-	update_track(PREV)
+	update_track(START)
 
 
 func _input(event: InputEvent) -> void:
@@ -49,8 +50,11 @@ func _input(event: InputEvent) -> void:
 	
 func update_track(ACTION):
 	
-	if ACTION == PREV and !track_index == 0:
-		track_index -= 1
+	if ACTION == PREV:
+		if track_index == 0:
+			track_index = track_list.size()-1
+		else:
+			track_index -= 1
 		
 	
 	elif ACTION == NEXT:
