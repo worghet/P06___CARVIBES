@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://bgjqlmctbc56w"]
+[gd_scene load_steps=13 format=3 uid="uid://bgjqlmctbc56w"]
 
+[ext_resource type="Script" uid="uid://dfbjyard0h5i2" path="res://scripts/game.gd" id="1_iywne"]
 [ext_resource type="FontFile" uid="uid://co8u3w8k6dadt" path="res://demo_stuffs/Daydream.ttf" id="1_lnu2h"]
 [ext_resource type="Texture2D" uid="uid://cymicbcjdi2fi" path="res://demo_stuffs/gravel_05.png" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://gstchh1dfws1" path="res://scenes/car.tscn" id="2_yqjtg"]
-[ext_resource type="Script" uid="uid://q44ff1qr8rft" path="res://scripts/demo_audio.gd" id="4_lbhrr"]
+[ext_resource type="Script" uid="uid://q44ff1qr8rft" path="res://scripts/track_player.gd" id="4_lbhrr"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_yqjtg"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -33,6 +34,7 @@ data = PackedVector3Array(-125, 0.25, 125, 125, 0.25, 125, -125, -0.25, 125, 125
 [sub_resource type="CylinderMesh" id="CylinderMesh_lnu2h"]
 
 [node name="game" type="Node3D"]
+script = ExtResource("1_iywne")
 
 [node name="ui" type="Control" parent="."]
 layout_mode = 3
@@ -102,7 +104,7 @@ shape = SubResource("ConcavePolygonShape3D_lbhrr")
 [node name="car" parent="." instance=ExtResource("2_yqjtg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.121655, 2.04264, 20.5556)
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="car"]
+[node name="track_player" type="AudioStreamPlayer" parent="car"]
 script = ExtResource("4_lbhrr")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -117,4 +119,4 @@ mesh = SubResource("CylinderMesh_lnu2h")
 transform = Transform3D(13.1453, 0, 0, 0, 0.955624, 0, 0, 0, 13.1453, -71.0986, 0.974015, 60.9243)
 mesh = SubResource("CylinderMesh_lnu2h")
 
-[connection signal="finished" from="car/AudioStreamPlayer" to="car/AudioStreamPlayer" method="_on_finished"]
+[connection signal="finished" from="car/track_player" to="car/track_player" method="_on_finished"]

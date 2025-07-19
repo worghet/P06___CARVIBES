@@ -5,6 +5,9 @@ extends AudioStreamPlayer
 @onready var ocarina_of_time_mp3 = load("res://demo_stuffs/Ocarina of Time.mp3")
 @onready var resonance_mp3 = load("res://demo_stuffs/Resonance.mp3")
 
+@onready var cassette_mp3 = load("res://demo_stuffs/tape-cassette-insert-172758.mp3")
+
+
 @onready var track_list : Dictionary = {
 	
 	"twin_peaks.mp3": twin_peaks_mp3,
@@ -21,6 +24,7 @@ const START = 2
 
 
 var track_index = 0
+#var track_being_switched = false
 
 func _ready() -> void:
 	
@@ -50,6 +54,17 @@ func _input(event: InputEvent) -> void:
 	
 func update_track(ACTION):
 	
+	# play cassette noise
+	stream = cassette_mp3
+	track_ui.text = "<   inserting..   />"
+	play()
+	await self.finished
+	
+	 #$NextLevelSound.play()
+		## Stop the script until the sound has completed playing.
+		#yield($NextLevelSound, "finished")
+	
+	
 	if ACTION == PREV:
 		if track_index == 0:
 			track_index = track_list.size()-1
@@ -69,6 +84,7 @@ func update_track(ACTION):
 	
 	#stream.resource_name
 	track_ui.text = "<   " + track_key + "   />"
+	
 	play()
 	
 

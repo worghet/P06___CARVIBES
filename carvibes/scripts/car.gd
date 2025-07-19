@@ -1,6 +1,6 @@
 extends VehicleBody3D
 
-@onready var accelerometer_ui = get_parent().get_child(0).get_child(0).get_child(0)
+@onready var accelerometer_ui : Label = get_parent().get_child(0).get_child(0).get_child(0)
 
 var max_rpm = 500 # max speed
 var max_torque = 500 #power
@@ -100,15 +100,6 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		#angular_velocity = Vector3.ZERO
 
 	
-func _unhandled_input(event: InputEvent) -> void:
 	
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)	
-	elif Input.is_action_just_pressed("escape"):
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)	
-			#z
-		#) = Input.MOUSE_MODE_CAPTURED
-		#
-		#print("move cam now")
 
 		

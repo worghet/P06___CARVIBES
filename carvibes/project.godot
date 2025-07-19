@@ -21,6 +21,15 @@ window/size/mode=3
 window/stretch/mode="viewport"
 mouse_cursor/custom_image="uid://bfeur4vqn0po7"
 
+[file_customization]
+
+folder_colors={
+"res://builds/": "gray",
+"res://demo_stuffs/": "gray",
+"res://scenes/": "teal",
+"res://scripts/": "green"
+}
+
 [input]
 
 forward={
