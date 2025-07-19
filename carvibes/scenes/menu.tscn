@@ -1,0 +1,240 @@
+[gd_scene load_steps=16 format=3 uid="uid://bvev11fma3dp3"]
+
+[ext_resource type="Script" uid="uid://btqifnxy1fq26" path="res://scenes/menu.gd" id="1_g3eks"]
+[ext_resource type="FontFile" uid="uid://co8u3w8k6dadt" path="res://demo_stuffs/Daydream.ttf" id="1_yqeox"]
+[ext_resource type="Texture2D" uid="uid://chyovjf0x47yd" path="res://demo_stuffs/normal.png" id="2_vjb58"]
+[ext_resource type="Texture2D" uid="uid://briyamwg806kx" path="res://demo_stuffs/pressed.png" id="3_4ytvr"]
+[ext_resource type="PackedScene" uid="uid://dgo1dp6sf687n" path="res://demo_stuffs/FiatUno1998.glb" id="3_con2f"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4h3mk"]
+albedo_color = Color(0.752941, 0.752941, 0.752941, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_4h3mk"]
+material = SubResource("StandardMaterial3D_4h3mk")
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_4h3mk"]
+color = Color(0, 0, 1, 1)
+grow_begin = 0.0
+grow_end = 0.0
+thickness = 35
+
+[sub_resource type="Theme" id="Theme_13sgg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g3eks"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_g3eks"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+texture = ExtResource("3_4ytvr")
+
+[sub_resource type="Theme" id="Theme_con2f"]
+/colors/button = Color(0.853351, 0.86357, 0.856997, 1)
+
+[sub_resource type="Theme" id="Theme_g3eks"]
+default_font = ExtResource("1_yqeox")
+Button/colors/font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_v86rl"]
+content_margin_left = 0.0
+content_margin_top = 10.0
+content_margin_right = 0.0
+content_margin_bottom = 10.0
+texture = ExtResource("2_vjb58")
+texture_margin_left = 10.0
+texture_margin_right = 10.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_13sgg"]
+content_margin_left = 0.0
+content_margin_top = 10.0
+content_margin_right = 0.0
+content_margin_bottom = 10.0
+texture = ExtResource("3_4ytvr")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[node name="menu" type="Node3D"]
+script = ExtResource("1_g3eks")
+
+[node name="light" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0.494619, -0.668744, 0.555098, -0.0731801, 0.604383, 0.793326, -0.147722, 8.9751, 9.20496)
+
+[node name="camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.58277)
+
+[node name="backdrop" type="MeshInstance3D" parent="."]
+transform = Transform3D(26.8904, 0, 0, 0, 26.8904, 0, 0, 0, 26.8904, 0, 0, -6.27783)
+mesh = SubResource("QuadMesh_4h3mk")
+
+[node name="FiatUno1998" parent="." instance=ExtResource("3_con2f")]
+transform = Transform3D(-0.114017, 0, -0.927124, 0, 0.934109, 0, 0.927124, 0, -0.114017, 2.54283, -0.886138, -2.56203)
+
+[node name="main" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="top_bar" type="MarginContainer" parent="main"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 0
+
+[node name="coloured_rect" type="Panel" parent="main/top_bar"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxLine_4h3mk")
+
+[node name="company_title" type="Label" parent="main/top_bar/coloured_rect"]
+layout_mode = 2
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 1147.0
+offset_bottom = 28.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_yqeox")
+text = "mikedropsgames™"
+
+[node name="exit_button" type="Button" parent="main/top_bar/coloured_rect"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -34.0
+offset_top = 2.0
+offset_right = -3.0
+offset_bottom = 33.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_13sgg")
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 19
+theme_override_icons/icon = ExtResource("2_vjb58")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_g3eks")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_g3eks")
+text = "X"
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="info_button" type="Button" parent="main/top_bar/coloured_rect"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -65.0
+offset_top = 2.0
+offset_right = -34.0
+offset_bottom = 33.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_con2f")
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 19
+theme_override_icons/icon = ExtResource("2_vjb58")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_g3eks")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_g3eks")
+text = "?"
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="vehicle_name" type="Label" parent="main"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -323.0
+offset_top = -164.0
+offset_right = -123.0
+offset_bottom = -141.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_yqeox")
+text = "fiat uno (1998)"
+
+[node name="MarginContainer" type="MarginContainer" parent="main"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="main/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 23
+alignment = 1
+
+[node name="title" type="Label" parent="main/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_yqeox")
+theme_override_font_sizes/font_size = 50
+text = "CARVIBES"
+
+[node name="start_button" type="Button" parent="main/MarginContainer/VBoxContainer"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_g3eks")
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_styles/hover = SubResource("StyleBoxTexture_v86rl")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_13sgg")
+theme_override_styles/normal = SubResource("StyleBoxTexture_v86rl")
+text = "start game"
+
+[node name="options_button" type="Button" parent="main/MarginContainer/VBoxContainer"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_g3eks")
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_styles/hover = SubResource("StyleBoxTexture_v86rl")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_13sgg")
+theme_override_styles/normal = SubResource("StyleBoxTexture_v86rl")
+text = "options"
+
+[connection signal="pressed" from="main/top_bar/coloured_rect/exit_button" to="." method="_on_exit_button_pressed"]
+[connection signal="pressed" from="main/MarginContainer/VBoxContainer/start_button" to="." method="_on_start_button_pressed"]
