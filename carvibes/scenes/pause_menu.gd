@@ -37,6 +37,10 @@ func _on_quit_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/menu.tscn")
 
 
+
+
+# dont work VVV
+
 func _on_close_pressed() -> void:
 	paused = false
 	resume()
