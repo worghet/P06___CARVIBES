@@ -5,7 +5,7 @@ extends VehicleBody3D
 var max_rpm = 500 # max speed
 var max_torque = 500 #power
 
-var braking_speed = 3.25
+var braking_speed = 5
 
 var max_wheel_turn = deg_to_rad(22.5) # max wheel turn angle
 var steering_speed = 2.75 # how fast to get to the max wheel turn (2-3 reccomended for chill)

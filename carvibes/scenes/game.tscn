@@ -1,10 +1,58 @@
-[gd_scene load_steps=13 format=3 uid="uid://bgjqlmctbc56w"]
+[gd_scene load_steps=24 format=3 uid="uid://bgjqlmctbc56w"]
 
 [ext_resource type="Script" uid="uid://dfbjyard0h5i2" path="res://scripts/game.gd" id="1_iywne"]
 [ext_resource type="FontFile" uid="uid://co8u3w8k6dadt" path="res://demo_stuffs/Daydream.ttf" id="1_lnu2h"]
 [ext_resource type="Texture2D" uid="uid://cymicbcjdi2fi" path="res://demo_stuffs/gravel_05.png" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://gstchh1dfws1" path="res://scenes/car.tscn" id="2_yqjtg"]
+[ext_resource type="Script" uid="uid://wop2h357laj0" path="res://scenes/pause_menu.gd" id="3_p57ef"]
 [ext_resource type="Script" uid="uid://q44ff1qr8rft" path="res://scripts/track_player.gd" id="4_lbhrr"]
+[ext_resource type="Texture2D" uid="uid://chyovjf0x47yd" path="res://demo_stuffs/normal.png" id="4_u5sy4"]
+[ext_resource type="Texture2D" uid="uid://briyamwg806kx" path="res://demo_stuffs/pressed.png" id="6_gee14"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p57ef"]
+bg_color = Color(0.752941, 0.752941, 0.752941, 1)
+border_color = Color(0, 0, 0, 1)
+shadow_color = Color(0, 0, 0, 1)
+shadow_size = 1
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u5sy4"]
+bg_color = Color(0, 0, 1, 1)
+
+[sub_resource type="Theme" id="Theme_gee14"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0tnpc"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dinhu"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+texture = ExtResource("6_gee14")
+
+[sub_resource type="Theme" id="Theme_0tnpc"]
+default_font = ExtResource("1_lnu2h")
+Button/colors/font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vtaks"]
+content_margin_left = 0.0
+content_margin_top = 10.0
+content_margin_right = 0.0
+content_margin_bottom = 10.0
+texture = ExtResource("4_u5sy4")
+texture_margin_left = 10.0
+texture_margin_right = 10.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kvpfn"]
+content_margin_left = 0.0
+content_margin_top = 10.0
+content_margin_right = 0.0
+content_margin_bottom = 10.0
+texture = ExtResource("6_gee14")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_yqjtg"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -36,7 +84,7 @@ data = PackedVector3Array(-125, 0.25, 125, 125, 0.25, 125, -125, -0.25, 125, 125
 [node name="game" type="Node3D"]
 script = ExtResource("1_iywne")
 
-[node name="ui" type="Control" parent="."]
+[node name="gui" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -46,7 +94,7 @@ grow_vertical = 2
 size_flags_horizontal = 4
 mouse_filter = 2
 
-[node name="margin" type="MarginContainer" parent="ui"]
+[node name="margin" type="MarginContainer" parent="gui"]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -58,7 +106,7 @@ grow_vertical = 0
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_bottom = 40
 
-[node name="speed" type="Label" parent="ui/margin"]
+[node name="speed" type="Label" parent="gui/margin"]
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_lnu2h")
@@ -66,7 +114,7 @@ theme_override_font_sizes/font_size = 24
 text = "Speed: super fast!!"
 vertical_alignment = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ui"]
+[node name="MarginContainer" type="MarginContainer" parent="gui"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -77,13 +125,188 @@ grow_vertical = 0
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_bottom = 10
 
-[node name="track_name" type="Label" parent="ui/MarginContainer"]
+[node name="track_name" type="Label" parent="gui/MarginContainer"]
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_lnu2h")
 theme_override_font_sizes/font_size = 15
 text = "< twin_peaks.mp3 >"
 vertical_alignment = 2
+
+[node name="track_player" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+script = ExtResource("4_lbhrr")
+
+[node name="pause_menu" type="Control" parent="."]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_p57ef")
+
+[node name="CenterContainer" type="CenterContainer" parent="pause_menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="pause_menu/CenterContainer"]
+custom_minimum_size = Vector2(256, 160)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_p57ef")
+
+[node name="top_bar" type="MarginContainer" parent="pause_menu/CenterContainer/Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 26.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+
+[node name="Panel" type="Panel" parent="pause_menu/CenterContainer/Panel/top_bar"]
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_u5sy4")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="pause_menu/CenterContainer/Panel/top_bar/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = -4
+alignment = 2
+
+[node name="hide" type="Button" parent="pause_menu/CenterContainer/Panel/top_bar/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_gee14")
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_icons/icon = ExtResource("4_u5sy4")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0tnpc")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_dinhu")
+text = "-"
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="maximize" type="Button" parent="pause_menu/CenterContainer/Panel/top_bar/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_gee14")
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_icons/icon = ExtResource("4_u5sy4")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0tnpc")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_dinhu")
+text = "□"
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="close" type="Button" parent="pause_menu/CenterContainer/Panel/top_bar/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_gee14")
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_icons/icon = ExtResource("4_u5sy4")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0tnpc")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_dinhu")
+text = "X"
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="MarginContainer" type="MarginContainer" parent="pause_menu/CenterContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 55
+theme_override_constants/margin_right = 25
+
+[node name="VBoxContainer" type="VBoxContainer" parent="pause_menu/CenterContainer/Panel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="pause_menu/CenterContainer/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_lnu2h")
+theme_override_font_sizes/font_size = 30
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="pause_menu/CenterContainer/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="quit" type="Button" parent="pause_menu/CenterContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_0tnpc")
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/hover = SubResource("StyleBoxTexture_vtaks")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_kvpfn")
+theme_override_styles/normal = SubResource("StyleBoxTexture_vtaks")
+text = "    QUIT    "
+
+[node name="ok" type="Button" parent="pause_menu/CenterContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_0tnpc")
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/hover = SubResource("StyleBoxTexture_vtaks")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_kvpfn")
+theme_override_styles/normal = SubResource("StyleBoxTexture_vtaks")
+text = "  OK  "
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_lbhrr")
@@ -93,7 +316,7 @@ transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75
 shadow_enabled = true
 
 [node name="ground" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 3.13767, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.48917, 0, 0, 0)
 mesh = SubResource("BoxMesh_lnu2h")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="ground"]
@@ -103,9 +326,6 @@ shape = SubResource("ConcavePolygonShape3D_lbhrr")
 
 [node name="car" parent="." instance=ExtResource("2_yqjtg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.121655, 2.04264, 20.5556)
-
-[node name="track_player" type="AudioStreamPlayer" parent="car"]
-script = ExtResource("4_lbhrr")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(35.7454, 0, 0, 0, 0.661319, 0, 0, 0, 56.0037, -27.9332, 1.20377, -51.8347)
@@ -119,4 +339,9 @@ mesh = SubResource("CylinderMesh_lnu2h")
 transform = Transform3D(13.1453, 0, 0, 0, 0.955624, 0, 0, 0, 13.1453, -71.0986, 0.974015, 60.9243)
 mesh = SubResource("CylinderMesh_lnu2h")
 
-[connection signal="finished" from="car/track_player" to="car/track_player" method="_on_finished"]
+[connection signal="finished" from="track_player" to="track_player" method="_on_finished"]
+[connection signal="pressed" from="pause_menu/CenterContainer/Panel/top_bar/Panel/HBoxContainer/hide" to="pause_menu" method="_on_hide_pressed"]
+[connection signal="pressed" from="pause_menu/CenterContainer/Panel/top_bar/Panel/HBoxContainer/maximize" to="pause_menu" method="_on_maximize_pressed"]
+[connection signal="pressed" from="pause_menu/CenterContainer/Panel/top_bar/Panel/HBoxContainer/close" to="pause_menu" method="_on_close_pressed"]
+[connection signal="pressed" from="pause_menu/CenterContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/quit" to="pause_menu" method="_on_quit_pressed"]
+[connection signal="pressed" from="pause_menu/CenterContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/ok" to="pause_menu" method="_on_ok_pressed"]

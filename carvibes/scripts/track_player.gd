@@ -16,7 +16,7 @@ extends AudioStreamPlayer
 	
 }
 
-@onready var track_ui = get_parent().get_parent().get_child(0).get_child(1).get_child(0)
+@onready var track_ui = get_parent().get_child(0).get_child(1).get_child(0)
 
 const PREV = 0
 const NEXT = 1
