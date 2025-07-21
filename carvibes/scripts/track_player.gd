@@ -4,6 +4,7 @@ extends AudioStreamPlayer
 @onready var twin_peaks_mp3 = load("res://demo_stuffs/Twin Peaks Intro.mp3")
 @onready var ocarina_of_time_mp3 = load("res://demo_stuffs/Ocarina of Time.mp3")
 @onready var resonance_mp3 = load("res://demo_stuffs/Resonance.mp3")
+@onready var kagefumi_mp3 = load("res://demo_stuffs/Kagefumi.mp3")
 
 @onready var cassette_mp3 = load("res://demo_stuffs/tape-cassette-insert-172758.mp3")
 
@@ -12,7 +13,8 @@ extends AudioStreamPlayer
 	
 	"twin_peaks.mp3": twin_peaks_mp3,
 	"ocarina_of_time.mp3" : ocarina_of_time_mp3,
-	"resonance.mp3" : resonance_mp3
+	"resonance.mp3" : resonance_mp3,
+	"kagefumi.mp3" : kagefumi_mp3
 	
 }
 
@@ -54,12 +56,16 @@ func _input(event: InputEvent) -> void:
 	
 func update_track(ACTION):
 	
+	print(track_index)
+	
 	# play cassette noise
+	cassette_playing = true
+	
 	stream = cassette_mp3
 	track_ui.text = "<   inserting..   />"
 	play()
 	await self.finished
-	
+	cassette_playing = false	
 	 #$NextLevelSound.play()
 		## Stop the script until the sound has completed playing.
 		#yield($NextLevelSound, "finished")
@@ -90,7 +96,8 @@ func update_track(ACTION):
 
 
 
-
+var cassette_playing = true
 func _on_finished() -> void:
-	update_track(NEXT)
+	if !cassette_playing:
+		update_track(NEXT)
 	
