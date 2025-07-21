@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://nurbe080l5x3" path="res://scripts/car.gd" id="1_50v30"]
 [ext_resource type="PackedScene" uid="uid://dgo1dp6sf687n" path="res://demo_stuffs/FiatUno1998.glb" id="2_jtldb"]
-[ext_resource type="Script" uid="uid://h3b4ccehxl58" path="res://scripts/camera_pivot.gd" id="3_3mrxu"]
+[ext_resource type="Script" uid="uid://h3b4ccehxl58" path="res://scripts/camera_pivot.gd" id="3_50v30"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_iywne"]
 size = Vector3(1.75391, 1.60168, 4.24841)
@@ -62,7 +62,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.487147, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00292969, 0.300842, 0.252136)
 shape = SubResource("BoxShape3D_iywne")
 
-[node name="front-left" type="VehicleWheel3D" parent="."]
+[node name="front_left" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.156466, 1.53882)
 use_as_traction = true
 wheel_roll_influence = 0.5
@@ -72,7 +72,7 @@ suspension_stiffness = 50.0
 damping_compression = 1.9
 damping_relaxation = 2.0
 
-[node name="front-right" type="VehicleWheel3D" parent="."]
+[node name="front_right" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.156466, 1.53882)
 use_as_traction = true
 wheel_roll_influence = 0.5
@@ -82,7 +82,7 @@ suspension_stiffness = 50.0
 damping_compression = 1.9
 damping_relaxation = 2.0
 
-[node name="back-left" type="VehicleWheel3D" parent="."]
+[node name="back_left" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.156506, -1.2)
 use_as_traction = true
 use_as_steering = true
@@ -93,7 +93,7 @@ suspension_stiffness = 50.0
 damping_compression = 1.9
 damping_relaxation = 2.0
 
-[node name="back-right" type="VehicleWheel3D" parent="."]
+[node name="back_right" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.156506, -1.2)
 use_as_traction = true
 use_as_steering = true
@@ -105,15 +105,15 @@ damping_compression = 1.9
 damping_relaxation = 2.0
 
 [node name="camera_pivot" type="Node3D" parent="."]
-script = ExtResource("3_3mrxu")
+script = ExtResource("3_50v30")
 
 [node name="camera" type="Camera3D" parent="camera_pivot"]
 transform = Transform3D(-1, 0, -8.74228e-08, -4.37114e-08, 0.866025, 0.5, 7.57103e-08, 0.5, -0.866025, 0, 2.49489, -4.02142)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="camera_pivot/camera"]
+[node name="shader" type="MeshInstance3D" parent="camera_pivot/camera"]
 transform = Transform3D(1.36602, 3.55271e-15, -1.56319e-13, 6.03961e-14, 0.693721, -3.57628e-07, 1.13687e-13, 2.98023e-08, 2.9208, 7.72548e-08, 0.0352123, -0.88369)
 material_override = SubResource("ShaderMaterial_jtldb")
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_3mrxu")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="engine_sound" type="AudioStreamPlayer3D" parent="."]

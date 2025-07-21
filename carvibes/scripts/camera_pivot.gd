@@ -1,11 +1,26 @@
 extends Node3D
 
 
+
+# Script deals with smooth camera movement.
+
+
+
+# ================================================================
+# == VARIABLES ===================================================
+# ================================================================
+
+
 var direction = Vector3.FORWARD
 @export var smooth_speed = 2.5
 
-
+# For later, when rotation available.
 var rotating_w_mouse = false
+
+
+# ================================================================
+# == VARIABLES ===================================================
+# ================================================================
 
 
 func _physics_process(delta: float) -> void:

@@ -1,105 +1,145 @@
 extends VehicleBody3D
 
+
+
+# Script deals with the car controlling.
+
+
+# ================================================================
+# == VARIABLES ===================================================
+# ================================================================
+
+
+
+# Reference to the ui that shows carspeed.
 @onready var accelerometer_ui : Label = get_parent().get_child(0).get_child(0).get_child(0)
 
-var max_rpm = 500 # max speed
-var max_torque = 500 #power
+# Convenient references for readability.
+@onready var back_left_wheel : Node = $"back_left"
+@onready var back_right_wheel : Node = $"back_right"
+@onready var camera : Node = $camera_pivot/camera
 
-var braking_speed = 5
+# Constants for dictating behaviour.
+const max_rpm : int = 500 # max speed
+const max_torque : float = 500 #power
+const braking_speed : float = 5
+const max_wheel_turn : float = deg_to_rad(22.5) # max wheel turn angle
+const steering_speed : float = 2.75 # how fast to get to the max wheel turn (2-3 reccomended for chill)
 
-var max_wheel_turn = deg_to_rad(22.5) # max wheel turn angle
-var steering_speed = 2.75 # how fast to get to the max wheel turn (2-3 reccomended for chill)
-# maybe make speed a curve
+# Action flag.
+var should_reset : bool = false
 
-var dynamic_fov_scale = 2
+# User-controlled modifiers.
+@export var dynamic_fov_scale : float = 2 # 0 for no dynamic fov
 
 
 
-var is_drifting = false
+# ================================================================
+# == METHODS =====================================================
+# ================================================================
 
-var should_reset = false
+
 
 func _process(delta: float) -> void:
 	
-	# update accelerometer ui
-	
+	# Update accelerometer ui.
 	accelerometer_ui.text = "SPEED   //   " + str(linear_velocity.length()).pad_decimals(1)
-	
-	
-	
+
+	# Update steering based on a-d pressed.	
 	steering = lerp(steering, Input.get_axis("left", "right") * max_wheel_turn, delta * steering_speed)
 	
-	var acceleration = Input.get_axis("backward", "forward") # * 100
+	# Define acceleration based on w-s pressed.
+	var acceleration : float = Input.get_axis("backward", "forward") # * 100
 
-	var rpm = $"back-left".get_rpm()
 	
-	$"back-left".engine_force = acceleration * max_torque * (1-abs(rpm) / max_rpm) # fixed backwards thing w abs
-	#$"back-left".engine_force = $"front-left".engine_force * 2
+	# Apply force to the wheels.
 	
 	
-	rpm = $"back-right".get_rpm()
+	# Get the current rpm of back-left wheel.
+	var rpm : int = back_left_wheel.get_rpm()
 	
-	$"back-right".engine_force = acceleration * max_torque * (1-abs(rpm) / max_rpm)
-	#$"back-right".engine_force = $"front-right".engine_force * 2
+	# Apply engine force to that wheel.
+	back_left_wheel.engine_force = acceleration * max_torque * (1-abs(rpm) / max_rpm) # fixed backwards thing w abs
 	
-	#dynamic fov
-	$camera_pivot/camera.fov = lerp($camera_pivot/camera.fov, 70 + (linear_velocity.length() * dynamic_fov_scale), 5*delta) # 0 for no dynamic fov
+	# Get the current rpm of back-right wheel.	
+	rpm = back_right_wheel.get_rpm()
 	
-	# braking
+	# Get the current rpm of back-left wheel.
+	back_right_wheel.engine_force = acceleration * max_torque * (1-abs(rpm) / max_rpm)
+
+
+	# Apply dynamic FOV.
+
+
+	camera.fov = lerp(camera.fov, 70 + (linear_velocity.length() * dynamic_fov_scale), 5*delta) 
+
+	
+	# Apply braking if needed.
+	
+	
 	if Input.is_action_pressed("brake"): 
-		#bug: will also keep the car floating if in the air..
+		
+		# Bug: this will also keep the car floating if in the air..
 		linear_velocity = lerp(linear_velocity, Vector3.ZERO, delta * braking_speed)
 		
 		
-	if is_drifting:
-		#engine force is recalculated all the time
-		$"back-right".engine_force *= 5
-		$"back-left".engine_force *= 5
+	# Apply drifting force if needed.
+		
+	if Input.is_action_pressed("drift"):
+		back_left_wheel.engine_force *= 5
+		back_right_wheel.engine_force *= 5
 	
 
 
 func _input(event: InputEvent) -> void:
 	
-	# activate flag
+	# Reset car flag.
 	if Input.is_action_just_pressed("reset_car"):
 		should_reset = true
 		
-	if Input.is_action_pressed("drift"):
-		is_drifting = true
-	else:
-		is_drifting = false
+		
+		
 		
 		
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
+	
+	# Check if the reset flag is activated.
 	if should_reset:
+		
+		# Reset flag status.
 		should_reset = false
 
-		# lift car 2 units
-		var new_position = state.transform.origin + Vector3.UP * 2.0
+		# Lift car 2 meters into the air.
+		var new_position : Vector3 = state.transform.origin + Vector3.UP * 2.0
 
-		# calculate upright basis (orientation)
-		var up = Vector3.UP
-		var forward = state.transform.basis.z.normalized()
 
-		# Avoid forward being too close to up to prevent gimbal issues
+		# Calculate up-right orientation (ChatGPT did this part).
+
+
+		var up : Vector3= Vector3.UP
+		
+		var forward : Vector3 = state.transform.basis.z.normalized()
+		
 		if abs(forward.dot(up)) > 0.99:
 			forward = -state.transform.basis.x.normalized()
-
-		var right = up.cross(forward).normalized()
+			
+		var right : Vector3 = up.cross(forward).normalized()
+		
 		forward = right.cross(up).normalized()
-
-		var new_basis = Basis(right, up, forward)
-		var new_transform = Transform3D(new_basis, new_position)
-
-		# apply new tranformation
+		
+		var new_basis : Basis = Basis(right, up, forward)
+		
+		
+		# Compile and apply the transformation to fully reset the car.
+		
+		
+		var new_transform : Transform3D = Transform3D(new_basis, new_position)
 		state.transform = new_transform
 
-
-		# will reset speeds (commented: gives a cool effect)
-		#linear_velocity = Vector3.ZERO
-		#angular_velocity = Vector3.ZERO
-
-	
-	
-
 		
+		# Reset the speed and rotation.
+
+
+
+		linear_velocity = Vector3.ZERO
+		angular_velocity = Vector3.ZERO
