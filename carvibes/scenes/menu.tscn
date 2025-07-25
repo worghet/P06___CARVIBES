@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://bvev11fma3dp3"]
+[gd_scene load_steps=17 format=3 uid="uid://bvev11fma3dp3"]
 
 [ext_resource type="Script" uid="uid://btqifnxy1fq26" path="res://scripts/menu.gd" id="1_g3eks"]
 [ext_resource type="FontFile" uid="uid://co8u3w8k6dadt" path="res://demo_stuffs/Daydream.ttf" id="1_yqeox"]
+[ext_resource type="PackedScene" uid="uid://boyu72s422oj3" path="res://demo_stuffs/cat_car2.glb" id="2_g3eks"]
 [ext_resource type="Texture2D" uid="uid://chyovjf0x47yd" path="res://demo_stuffs/normal.png" id="2_vjb58"]
 [ext_resource type="Texture2D" uid="uid://briyamwg806kx" path="res://demo_stuffs/pressed.png" id="3_4ytvr"]
 [ext_resource type="PackedScene" uid="uid://dgo1dp6sf687n" path="res://demo_stuffs/FiatUno1998.glb" id="3_con2f"]
@@ -69,8 +70,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.58277)
 transform = Transform3D(26.8904, 0, 0, 0, 26.8904, 0, 0, 0, 26.8904, 0, 0, -6.27783)
 mesh = SubResource("QuadMesh_4h3mk")
 
+[node name="cat_car2" parent="." instance=ExtResource("2_g3eks")]
+transform = Transform3D(0.0958991, 0, -0.157311, 0, 0.184238, 0, 0.157311, 0, 0.0958991, 0.227714, -0.0692157, 2.18456)
+
 [node name="FiatUno1998" parent="." instance=ExtResource("3_con2f")]
 transform = Transform3D(-0.114017, 0, -0.927124, 0, 0.934109, 0, 0.927124, 0, -0.114017, 2.54283, -0.886138, -2.56203)
+visible = false
 
 [node name="main" type="Control" parent="."]
 layout_mode = 3
@@ -164,6 +169,7 @@ icon_alignment = 1
 expand_icon = true
 
 [node name="vehicle_name" type="Label" parent="main"]
+visible = false
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -187,8 +193,9 @@ layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
 grow_vertical = 2
-theme_override_constants/margin_left = 100
+theme_override_constants/margin_left = 45
 theme_override_constants/margin_top = 0
+theme_override_constants/margin_bottom = 200
 
 [node name="VBoxContainer" type="VBoxContainer" parent="main/MarginContainer"]
 layout_mode = 2
@@ -201,10 +208,11 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_yqeox")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 65
 text = "CARVIBES"
 
 [node name="start_button" type="Button" parent="main/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = SubResource("Theme_g3eks")
@@ -221,6 +229,58 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_v86rl")
 text = "start game"
 
 [node name="options_button" type="Button" parent="main/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_g3eks")
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_styles/hover = SubResource("StyleBoxTexture_v86rl")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_13sgg")
+theme_override_styles/normal = SubResource("StyleBoxTexture_v86rl")
+text = "options"
+
+[node name="MarginContainer2" type="MarginContainer" parent="main"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="main/MarginContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="start_button" type="Button" parent="main/MarginContainer2/HBoxContainer"]
+custom_minimum_size = Vector2(525, 0)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_g3eks")
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_styles/hover = SubResource("StyleBoxTexture_v86rl")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_13sgg")
+theme_override_styles/normal = SubResource("StyleBoxTexture_v86rl")
+text = "start game"
+
+[node name="options_button" type="Button" parent="main/MarginContainer2/HBoxContainer"]
+custom_minimum_size = Vector2(525, 0)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = SubResource("Theme_g3eks")
@@ -238,3 +298,4 @@ text = "options"
 
 [connection signal="pressed" from="main/top_bar/coloured_rect/exit_button" to="." method="_on_exit_button_pressed"]
 [connection signal="pressed" from="main/MarginContainer/VBoxContainer/start_button" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="main/MarginContainer2/HBoxContainer/start_button" to="." method="_on_start_button_pressed"]
